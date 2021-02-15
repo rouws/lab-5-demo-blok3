@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+
+<body>
+
+    <%- include('layout/header'); -%>
+
+    <h1><%= title %></h1>
+
+    <form action="/movies/add" method="post">
+        <div>
+            <label for="name">Name:</label><br>
+            <input id="name" type="text" name="name" required>
+        </div>
+        <div>
+            <label for="year">Year:</label><br>
+            <input id="year" type="text" name="name">
+        </div>
+        <div>
+            <fieldset>
+                <legend>Categories:</legend>
+                <% categories.forEach(function(category){ %>
+                <input type="checkbox" name="categories" value="<%= category %>" id="<%= category %>">
+                <label for="<%= category %>"><%= category %></label><br>
+                <% }) %>
+            </fieldset>
+        </div>
+        <div>
+            <label for="storyline">Storyline</label><br>
+            <textarea name="storyline" id="" cols="30" rows="10"></textarea>
+        </div>
+        <button>Add</button>
+    </form>
+
+
+
+    <%- include('layout/footer'); -%>
+
+</body>
+
+</html>

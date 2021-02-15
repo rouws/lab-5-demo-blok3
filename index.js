@@ -3,6 +3,8 @@ const ejs = require('ejs');
 const app = express();
 const port = 3000;
 
+const categories = ["action", "adventure", "sci-fi", "animation", "horror", "thriller", "fantasy", "mystery", "comedy", "family"];
+
 // dit is tijdelijk totdat we echt een database hebben waar we
 // de films uithalen
 // bron: https://github.com/mikeleguedes/json-movie-list.git
@@ -23,10 +25,14 @@ app.get('/', (req, res) => {
 app.get('/movies', (req, res) => {
     res.render('movielist', {title:'List of all movies', movies})
 })
+app.get('/movies/add', (req, res) => {
+  res.render('add', {title: "Add movie", categories});
+});
 app.get('/movies/:movieId', (req, res) => {
     const movie = movies.find( movie => movie.id == req.params.movieId);
     res.render('moviedetails', {title: "Movie details", movie})
 });
+
 
 app.use(function (req, res, next) {
     res.status(404).send("Sorry can't find that!")
