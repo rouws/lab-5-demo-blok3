@@ -32,8 +32,8 @@ app.get('/movies/add', (req, res) => {
 });
 app.post('/movies/add', (req,res) => {
   // TODO do something with posted data from form
-  const movie = {}}
-  console.log(req.body)
+  const movie = {"name": req.body.name, "year": req.body.year, "categories": req.body.categories, "storyline": req.body.storyline};
+  movies.push(movie);
   res.render('moviedetails', {title: "Added a new movie", movie})
 });
 app.get('/movies/:movieId', (req, res) => {
