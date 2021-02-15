@@ -1,5 +1,6 @@
 const express = require('express');
 const ejs = require('ejs');
+const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
@@ -16,6 +17,7 @@ const movies = [
   { "id": "toy-story-4", "name" : "Toy Story 4", "year" : 2019, "categories" : ["animation","adventure","comedy","family","fantasy"],  "storyline" : "When a new toy called Forky joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy."}
 ];
 
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
 
@@ -27,6 +29,12 @@ app.get('/movies', (req, res) => {
 })
 app.get('/movies/add', (req, res) => {
   res.render('add', {title: "Add movie", categories});
+});
+app.post('/movies/add', (req,res) => {
+  // TODO do something with posted data from form
+  const movie = {}}
+  console.log(req.body)
+  res.render('moviedetails', {title: "Added a new movie", movie})
 });
 app.get('/movies/:movieId', (req, res) => {
     const movie = movies.find( movie => movie.id == req.params.movieId);
