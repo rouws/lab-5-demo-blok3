@@ -1,6 +1,7 @@
 const express = require('express');
 const ejs = require('ejs');
 const bodyParser = require('body-parser');
+const slug = require('slug')
 const app = express();
 const port = 3000;
 
@@ -31,8 +32,8 @@ app.get('/movies/add', (req, res) => {
   res.render('add', {title: "Add movie", categories});
 });
 app.post('/movies/add', (req,res) => {
-  // TODO do something with posted data from form
-  const movie = {"name": req.body.name, "year": req.body.year, "categories": req.body.categories, "storyline": req.body.storyline};
+  const id = slug(req.body.name);
+  const movie = {"id": "id", "name": req.body.name, "year": req.body.year, "categories": req.body.categories, "storyline": req.body.storyline};
   movies.push(movie);
   res.render('moviedetails', {title: "Added a new movie", movie})
 });
