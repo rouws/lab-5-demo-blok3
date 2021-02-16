@@ -1,7 +1,7 @@
 {
-  "name": "lab-2a-demo",
+  "name": "lab-2b-demo",
   "version": "1.0.0",
-  "description": "demo bij lab 2a",
+  "description": "demo bij lab 2b",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rouws/lab-2a-demo.git"
+    "url": "git+https://github.com/rouws/lab-2b-demo.git"
   },
   "keywords": [
     "express",
@@ -18,9 +18,9 @@
   "author": "Sonja Rouwhorst",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rouws/lab-2a-demo/issues"
+    "url": "https://github.com/rouws/lab-2b-demo/issues"
   },
-  "homepage": "https://github.com/rouws/lab-2a-demo#readme",
+  "homepage": "",
   "dependencies": {
     "ejs": "^3.1.6",
     "express": "^4.17.1",
