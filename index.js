@@ -49,10 +49,10 @@ app.get('/movies', async (req, res) => {
 app.get('/movies/add', (req, res) => {
   res.render('add', {title: "Add movie", categories});
 });
-app.post('/movies/add', (req,res) => {
+app.post('/movies/add', async (req,res) => {
   const id = slug(req.body.name);
   const movie = {"id": "id", "name": req.body.name, "year": req.body.year, "categories": req.body.categories, "storyline": req.body.storyline};
-  movies.push(movie);
+  await db.collection('movies').insertOne(movie);
   res.render('moviedetails', {title: "Added a new movie", movie})
 });
 app.get('/movies/:movieId', async (req, res) => {
