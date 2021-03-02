@@ -39,7 +39,11 @@ app.set('view engine', 'ejs')
 app.get('/', (req, res) => {
   res.send('Hello World!')
 });
-app.get('/movies', (req, res) => {
+app.get('/movies', async (req, res) => {
+      // create an empty list of movies
+    let movies = {}
+    // look for alle movies in database and sort them by year and name into an array
+    movies = await db.collection('movies').find({},{sort: {year: -1, name: 1}}).toArray();
     res.render('movielist', {title:'List of all movies', movies})
 })
 app.get('/movies/add', (req, res) => {
@@ -51,8 +55,8 @@ app.post('/movies/add', (req,res) => {
   movies.push(movie);
   res.render('moviedetails', {title: "Added a new movie", movie})
 });
-app.get('/movies/:movieId', (req, res) => {
-    const movie = movies.find( movie => movie.id == req.params.movieId);
+app.get('/movies/:movieId', async (req, res) => {
+    const movie = await db.collection('movies').findOne({ id: req.params.movieId });
     res.render('moviedetails', {title: "Movie details", movie})
 });
 
