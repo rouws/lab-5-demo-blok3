@@ -4,21 +4,33 @@ const bodyParser = require('body-parser');
 const slug = require('slug')
 const app = express();
 const dotenv = require('dotenv').config();
+const { MongoClient } = require('mongodb')
 const port = 3000;
 
 
 const categories = ["action", "adventure", "sci-fi", "animation", "horror", "thriller", "fantasy", "mystery", "comedy", "family"];
 
-// dit is tijdelijk totdat we echt een database hebben waar we
-// de films uithalen
-// bron: https://github.com/mikeleguedes/json-movie-list.git
-const movies = [
-  { "id": "black-panther", "name": "Black Panther", "year": 2018, "categories": ["action","adventure","sci-fi"],"storyline": "T'Challa, heir to the hidden but advanced kingdom of Wakanda, must step forward to lead his people into a new future and must confront a challenger from his country's past."},
-  { "id": "incredibles-3", "name": "Incredibles 2", "year": 2018, "categories": ["animation","action","adventure"],"storyline": "While the Parr family has accepted its collective calling as superheroes, the fact remains that their special heroism is still illegal. After they are arrested after unsuccessfully trying to stop the Underminer, their future seems bleak. However, the wealthy Deavor siblings of Devtech offer new hope with a bold project to rehabilitate the public image and legal status of Supers, with Elastigirl being assigned on point to be the shining example. Now having agreed for now to stay at home to care of the kids, Mr. Incredible finds domestic life a daunting challenge, especially with baby Jack-Jack's newly emerged powers making him almost impossible to manage. However, Elastigirl soon has her own concerns dealing with the menace of a new supervillain, Screenslaver, who is wreaking havoc with his mind control abilities. Now, Elastigirl must solve the mystery of this enemy, who has malevolent designs on the world with the Parr family and friends key targets of this evil. Written by Kenneth Chisholm (kchishol@rogers.com)"},
-  { "id": "halloween", "name": "Halloween", "year": 2018, "categories": ["horror","thriller"],"storyline": "Laurie Strode comes to her final confrontation with Michael Myers, the masked figure who has haunted her since she narrowly escaped his killing spree on Halloween night four decades ago."},
-  { "id": "ad-astra", "name" : "Ad Astra", "year" : 2019, "categories" : ["adventure","fantasy","mystery","thriller","sci-fi"], "storyline" : "Thirty years ago, Clifford McBride led a voyage into deep space, but the ship and crew were never heard from again. Now his son -- a fearless astronaut -- must embark on a daring mission to Neptune to uncover the truth about his missing father and a mysterious power surge that threatens the stability of the universe."},
-  { "id": "toy-story-4", "name" : "Toy Story 4", "year" : 2019, "categories" : ["animation","adventure","comedy","family","fantasy"],  "storyline" : "When a new toy called Forky joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy."}
-];
+let db = null;
+// function connectDB
+async function connectDB () {
+  // get URI from .env file
+  const uri = process.env.DB_URI
+  // make connection to database
+  const options = { useUnifiedTopology: true };
+  const client = new MongoClient(uri, options)
+  await client.connect();
+  db = await client.db(process.env.DB_NAME)
+}
+connectDB()
+  .then(() => {
+    // if succesfull connections is made, show a message
+    console.log('We have a connection to Mongo!')
+  })
+  .catch( error => {
+    // if connnection is unsuccesful, show errors
+    console.log(error)
+  });
+
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('public'))
