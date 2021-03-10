@@ -7,7 +7,7 @@ const dotenv = require('dotenv').config();
 const { MongoClient } = require('mongodb')
 const port = 3000;
 
-
+const years = ['2017', '2018', '2019', '2020'];
 const categories = ["action", "adventure", "sci-fi", "animation", "horror", "thriller", "fantasy", "mystery", "comedy", "family"];
 
 let db = null;
@@ -55,11 +55,35 @@ app.post('/movies/add', async (req,res) => {
   await db.collection('movies').insertOne(movie);
   res.render('moviedetails', {title: "Added a new movie", movie})
 });
+app.get('/movies/filter', (req, res) => {
+  res.render('filter', {title: "Filter movies", categories, years})
+});
+app.post('/movies/filter', async (req, res) => {
+    // a list of years that the user has chosen
+    // if no years were chosen by user, show all years
+    // idem for categories
+    const chosenYears = req.body.years || years;
+    const chosenCategories = req.body.categories || categories;
+    console.log(chosenYears);
+    console.log(chosenCategories);
+
+    const allMovies = await db.collection('movies').find({}).toArray();
+    let filteredMovies = allMovies.filter(movie => {
+       if (chosenYears.includes(movie.year.toString())) {
+         for (category of movie.categories) {
+           if (chosenCategories.includes(category)) {
+             return true;
+           }
+         }
+       }
+       return false;
+    });
+    res.render('movielist', {title:'Filtered list of movies', movies: filteredMovies})
+});
 app.get('/movies/:movieId', async (req, res) => {
     const movie = await db.collection('movies').findOne({ id: req.params.movieId });
     res.render('moviedetails', {title: "Movie details", movie})
 });
-
 
 app.use(function (req, res, next) {
     res.status(404).send("Sorry can't find that!")

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('layout/head'); -%>
+</head>
+
+<body>
+
+    <%- include('layout/header'); -%>
+
+    <h1><%= title %></h1>
+
+    <form action="/movies/filter" method="post">
+        <div>
+            <fieldset>
+                <legend>Years:</legend>
+                <% years.forEach(function(year){ %>
+                <input type="checkbox" name="years" value="<%= year %>" id="<%= year %>">
+                <label for="<%= year %>"><%= year %></label><br>
+                <% }) %>
+            </fieldset>
+        </div>
+        <div>
+            <fieldset>
+                <legend>Categories:</legend>
+                <% categories.forEach(function(category){ %>
+                <input type="checkbox" name="categories" value="<%= category %>" id="<%= category %>">
+                <label for="<%= category %>"><%= category %></label><br>
+                <% }) %>
+            </fieldset>
+        </div>
+        <button class="button">Filter</button>
+    </form>
+
+
+
+    <%- include('layout/footer'); -%>
+
+</body>
+
+</html>
